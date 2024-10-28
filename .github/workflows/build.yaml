@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io
   # Best practice to hard-code your GitHub username below in LOWERCASE.
   # Update to your own GitHub username.
-  IMAGE_NAME: xqd7aq/fastapi-demo_2
+  IMAGE_NAME: xqd7aq/fastapi-demo_more_math
   IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER
   DOCKER_BUILDKIT: 1
 
