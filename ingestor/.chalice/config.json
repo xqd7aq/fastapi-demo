@@ -1,0 +1,15 @@
+{
+  "version": "2.0",
+  "app_name": "ingestor",
+   "environment_variables": {
+   "DBHOST":"ds2022.cqee4iwdcaph.us-east-1.rds.amazonaws.com",
+   "DBPASS":"D$2022pAss",
+   "DBUSER":"admin",
+   "DB":"xqd7aq"
+  },
+  "stages": {
+    "dev": {
+      "api_gateway_stage": "api"
+    }
+  }
+}
