@@ -54,8 +54,7 @@ def get_genres():
 @app.get('/songs')
 def get_songs():
     """
-    Fetch songs with their details and return as a JSON-formatted string.
-    Excludes S3 bucket URLs for file and image fields.
+    Fetch songs with their details and return as a JSON-formatted response.
     """
     query = """
     SELECT 
@@ -74,14 +73,22 @@ def get_songs():
         songs.title;
     """
     try:
-        # Execute the SQL query
+        # Execute the query
         cur.execute(query)
-        
-        # Fetch all results
         results = cur.fetchall()
-        
-        # Return results in JSON format
-        return json.dumps(results, indent=4)
+
+        # Fetch column headers
+        headers = [x[0] for x in cur.description]
+
+        # Map each row to a dictionary with column names
+        json_data = [dict(zip(headers, row)) for row in results]
+
+        # Return JSON response
+        return JSONResponse(content=json_data)
+
     except mysql.connector.Error as err:
         # Handle database errors
-        return json.dumps({"error": f"MySQL error: {err}"}, indent=4)
+        raise HTTPException(status_code=500, detail=f"MySQL error: {err}")
+    except Exception as e:
+        # Handle any other errors
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
