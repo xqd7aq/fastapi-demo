@@ -75,20 +75,15 @@ def get_songs():
     try:
         # Execute the query
         cur.execute(query)
+        headers = [x[0] for x in cur.description]
         results = cur.fetchall()
 
-        # Fetch column headers
-        headers = [x[0] for x in cur.description]
-
         # Map each row to a dictionary with column names
-        json_data = [dict(zip(headers, row)) for row in results]
-
-        # Return JSON response
-        return JSONResponse(content=json_data)
-
+        json_data = []
+        for result in results:
+            json_data.append(dict(zip(headers, result)))
+        
+        return (json_data)
+    
     except mysql.connector.Error as err:
-        # Handle database errors
-        raise HTTPException(status_code=500, detail=f"MySQL error: {err}")
-    except Exception as e:
-        # Handle any other errors
-        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+        return {"error": "Failed to fetch song"}
